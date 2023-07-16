@@ -78,11 +78,12 @@ public class OssUtil {
 
     public void download(String objectName, String localPath, int bufferSize) throws DownloadException {
         InputStream is = null;
-        try (FileOutputStream fos = new FileOutputStream(localPath)) {
+        FileOutputStream fos = null;
+        try {
 
             // request
             GetObjectRequest request = new GetObjectRequest(bucketName, objectName);
-            if (Objects.nonNull(progressListener)){
+            if (Objects.nonNull(progressListener)) {
                 request.withProgressListener(progressListener);
             }
             OSSObject ossObject = ossClient.getObject(request);
@@ -91,12 +92,13 @@ public class OssUtil {
 
             // mkdir parent dir
             FileUtil.mkdir(new File(localPath).getParent());
-
+            fos = new FileOutputStream(localPath);
             IoUtil.copy(is, fos, bufferSize);
         } catch (Exception e) {
             throw new DownloadException("OSS Download fail, Msg: " + e.getMessage());
-        }finally {
+        } finally {
             IoUtil.close(is);
+            IoUtil.close(fos);
             ossClient.shutdown();
         }
     }

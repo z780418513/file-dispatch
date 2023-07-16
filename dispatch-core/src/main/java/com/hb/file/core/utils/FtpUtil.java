@@ -57,12 +57,11 @@ public class FtpUtil {
      * @return true=上传成功
      * @throws UploadException 上传异常
      */
-    public boolean upload(String remotePath, String localPath, int bufferSize, @Nullable StreamProgress streamProgress) throws UploadException {
+    public void upload(String remotePath, String localPath, int bufferSize, @Nullable StreamProgress streamProgress) throws UploadException {
         try {
             String fileDirectory = FileUtil.file(remotePath).getParentFile().getPath();
             if (!mkdirFileDirectory(fileDirectory)) {
                 logger.warn("FTP Create File Fail, FileDirectory: {}", fileDirectory);
-                return false;
             }
 
             OutputStream os = ftpClient.storeFileStream(remotePath);
@@ -74,7 +73,6 @@ public class FtpUtil {
         } catch (Exception e) {
             throw new UploadException("FTP Upload fail, " + e.getMessage());
         }
-        return true;
     }
 
     /**
@@ -87,7 +85,7 @@ public class FtpUtil {
      * @return true=上传成功
      * @throws DownloadException 下载异常
      */
-    public boolean download(String remotePath, String localPath, int bufferSize, @Nullable StreamProgress streamProgress) throws DownloadException {
+    public void download(String remotePath, String localPath, int bufferSize, @Nullable StreamProgress streamProgress) throws DownloadException {
         try {
             File remoteFile = new File(remotePath);
             // check remote file
@@ -102,7 +100,6 @@ public class FtpUtil {
         } catch (Exception e) {
             throw new DownloadException("FTP Download fail, " + e.getMessage());
         }
-        return true;
     }
 
 

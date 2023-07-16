@@ -4,10 +4,12 @@ import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
+import com.hb.file.core.exception.ClientCreateException;
 import org.springframework.lang.Nullable;
 
 /**
  * ossClient工厂类
+ *
  * @author hanbaolaoba
  */
 public class OssClientFactory {
@@ -37,11 +39,15 @@ public class OssClientFactory {
         this.securityToken = securityToken;
     }
 
-    public OSSClient createClient() {
-        // 使用代码嵌入的STS临时访问密钥和安全令牌配置访问凭证。
-        CredentialsProvider credentialsProvider =
-                new DefaultCredentialProvider(accessKeyId, accessKeySecret, securityToken);
-        return (OSSClient) new OSSClientBuilder().build(endpoint, credentialsProvider);
+    public OSSClient createClient() throws ClientCreateException {
+        try {
+            // 使用代码嵌入的STS临时访问密钥和安全令牌配置访问凭证。
+            CredentialsProvider credentialsProvider =
+                    new DefaultCredentialProvider(accessKeyId, accessKeySecret, securityToken);
+            return (OSSClient) new OSSClientBuilder().build(endpoint, credentialsProvider);
+        } catch (Exception e) {
+            throw new ClientCreateException("OSS create client fail, Error: " + e.getMessage());
+        }
     }
 
 
