@@ -25,17 +25,17 @@ public class StreamCopyService {
         this.platformConfigService = platformConfigService;
     }
 
-    public void copy(String source, String target, Integer buffSize) throws CopyException {
+    public void copy(String source, String target) throws CopyException {
         StoreUtil inputStoreUtil = null;
         StoreUtil outputStoreUtil = null;
         OutputStream os = null;
         InputStream is = null;
         try {
             inputStoreUtil = getInputStoreUtil();
-            is = inputStoreUtil.getDownloadInputStream(source);
+            is = inputStoreUtil.downloadInputStream(source);
+
             outputStoreUtil = getOutputStoreUtil();
-            os = outputStoreUtil.getUploadOutputStream(target);
-            IoUtil.copy(is, os, buffSize);
+            outputStoreUtil.uploadInputStream(target, is);
         } catch (Exception e) {
             log.error("Stream Copy fail, ", e);
             throw new CopyException(e.getMessage());

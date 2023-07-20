@@ -1,13 +1,12 @@
 package com.hb.file.core.utils;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 
 public interface StoreUtil {
 
-    InputStream getDownloadInputStream(String source) throws Exception;
+    InputStream downloadInputStream(String source) throws Exception;
 
-    OutputStream getUploadOutputStream(String target) throws Exception;
+    void uploadInputStream(String target, InputStream in) throws Exception;
 
     /**
      * 销毁客户端

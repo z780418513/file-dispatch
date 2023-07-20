@@ -53,7 +53,7 @@ public class TriggerTask {
         DispatchTaskModel taskModel = dispatchTaskService.queryByStreamingNo(channel, streamingNo);
         if (Objects.nonNull(taskModel)) {
             StreamCopyService streamCopyService = new StreamCopyService(channel, taskModel.getInputPlatform(), taskModel.getOutputPlatform(), platformConfigService);
-            streamCopyService.copy(taskModel.getSourceUrl(), taskModel.getUploadDir(), 1024);
+            streamCopyService.copy(taskModel.getSourceUrl(), taskModel.getUploadDir());
         }
 
     }

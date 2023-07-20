@@ -10,7 +10,10 @@ import io.minio.GetObjectResponse;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 /**
  * minio工具类
@@ -72,7 +75,7 @@ public class MinioUtil implements StoreUtil {
     }
 
     @Override
-    public InputStream getDownloadInputStream(String objectKey) throws Exception {
+    public InputStream downloadInputStream(String objectKey) throws Exception {
         GetObjectArgs objectArgs = GetObjectArgs.builder()
                 .bucket(this.bucketName)
                 .object(objectKey)
@@ -81,12 +84,21 @@ public class MinioUtil implements StoreUtil {
     }
 
     @Override
-    public OutputStream getUploadOutputStream(String target) {
-        return null;
+    public void uploadInputStream(String target, InputStream in) throws Exception {
+        try {
+            PutObjectArgs objectArgs = PutObjectArgs.builder()
+                    .bucket(this.bucketName)
+                    .object(target)
+                    .stream(in, -1, 1024 * 1024 * 50)
+                    .build();
+            minioClient.putObject(objectArgs);
+        } catch (Exception e) {
+            throw new UploadException("Minio Upload fail, " + e.getMessage());
+        }
     }
 
     @Override
     public void destroy() {
-
+        // do nothing
     }
 }

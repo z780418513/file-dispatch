@@ -140,7 +140,7 @@ public class FtpUtil implements StoreUtil {
     }
 
     @Override
-    public InputStream getDownloadInputStream(String remotePath) throws IOException {
+    public InputStream downloadInputStream(String remotePath) throws IOException {
         File remoteFile = new File(remotePath);
         // check remote file
         checkFileExist(remoteFile.getParent(), remoteFile.getName());
@@ -148,15 +148,31 @@ public class FtpUtil implements StoreUtil {
     }
 
     @Override
-    public OutputStream getUploadOutputStream(String remotePath) throws IOException {
+    public void uploadInputStream(String remotePath, InputStream is) throws Exception {
         String fileDirectory = FileUtil.file(remotePath).getParentFile().getPath();
         if (!mkdirFileDirectory(fileDirectory)) {
             logger.warn("FTP Create File Fail, FileDirectory: {}", fileDirectory);
         }
-        return ftpClient.storeFileStream(remotePath);
+        ftpClient.storeFile(remotePath, is);
     }
+
 
     @Override
     public void destroy() {
+        disconnect();
+    }
+
+    /**
+     * 关闭ftp连接
+     */
+    public void disconnect() {
+        if (ftpClient.isConnected()) {
+            try {
+                ftpClient.logout();
+                ftpClient.disconnect();
+            } catch (IOException ex) {
+                // do nothing
+            }
+        }
     }
 }

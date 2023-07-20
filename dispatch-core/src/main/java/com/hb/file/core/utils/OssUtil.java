@@ -18,7 +18,6 @@ import org.springframework.lang.Nullable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -100,7 +99,9 @@ public class OssUtil implements StoreUtil {
         }
     }
 
-    public InputStream downloadInputStream(String objectName) throws DownloadException {
+
+    @Override
+    public InputStream downloadInputStream(String objectName) {
         try {
             // request
             GetObjectRequest request = new GetObjectRequest(bucketName, objectName);
@@ -114,19 +115,23 @@ public class OssUtil implements StoreUtil {
         }
     }
 
-
     @Override
-    public InputStream getDownloadInputStream(String objectName) {
-        return null;
-    }
-
-    @Override
-    public OutputStream getUploadOutputStream(String target) {
-        return null;
+    public void uploadInputStream(String objectName, InputStream is) throws Exception {
+        try {
+            // 创建PutObjectRequest对象。
+            PutObjectRequest putObjectRequest = new PutObjectRequest(this.bucketName, objectName, is);
+            if (Objects.nonNull(progressListener)) {
+                putObjectRequest.withProgressListener(progressListener);
+            }
+            // 创建PutObject请求。
+            ossClient.putObject(putObjectRequest);
+        } catch (Exception e) {
+            throw new UploadException("OSS Upload fail, Msg: " + e.getMessage());
+        }
     }
 
     @Override
     public void destroy() {
-
+        ossClient.shutdown();
     }
 }

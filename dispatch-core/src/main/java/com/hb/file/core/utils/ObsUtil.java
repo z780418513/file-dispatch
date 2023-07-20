@@ -143,7 +143,7 @@ public class ObsUtil implements StoreUtil {
     }
 
     @Override
-    public InputStream getDownloadInputStream(String objectKey) {
+    public InputStream downloadInputStream(String objectKey) {
         try {
             GetObjectRequest request = downloadRequest(objectKey);
             ObsObject object = this.obsClient.getObject(request);
@@ -154,8 +154,13 @@ public class ObsUtil implements StoreUtil {
     }
 
     @Override
-    public OutputStream getUploadOutputStream(String target) {
-        return null;
+    public void uploadInputStream(String remotePath, InputStream is) throws Exception {
+        try {
+            PutObjectRequest request = uploadRequest(remotePath, is);
+            this.obsClient.putObject(request);
+        } catch (Exception e) {
+            throw new UploadException("OBS Upload fail, Msg: " + e.getMessage());
+        }
     }
 
     @Override
