@@ -1,10 +1,12 @@
 package com.hb.file.core.factory;
 
 import com.hb.file.core.exception.ClientCreateException;
+import com.hb.file.core.properties.MinioProperties;
 import io.minio.MinioClient;
 
 /**
  * minioClient工厂类
+ *
  * @author hanbaolaoba
  */
 public class MinioClientFactory {
@@ -26,6 +28,12 @@ public class MinioClientFactory {
         this.endpoint = endpoint;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
+    }
+
+    public MinioClientFactory(MinioProperties properties) {
+        this.endpoint = properties.getEndpoint();
+        this.accessKey = properties.getAccessKey();
+        this.secretKey = properties.getSecretKey();
     }
 
     public MinioClient createClient() throws ClientCreateException {

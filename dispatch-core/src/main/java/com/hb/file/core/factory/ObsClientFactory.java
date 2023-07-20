@@ -1,6 +1,7 @@
 package com.hb.file.core.factory;
 
 import com.hb.file.core.exception.ClientCreateException;
+import com.hb.file.core.properties.ObsProperties;
 import com.obs.services.ObsClient;
 import com.obs.services.ObsConfiguration;
 import org.springframework.lang.Nullable;
@@ -32,11 +33,18 @@ public class ObsClientFactory {
     @Nullable
     private final ObsConfiguration config;
 
-    public ObsClientFactory(String accessKey, String secretKey, String endPoint, ObsConfiguration config) {
+    public ObsClientFactory(String accessKey, String secretKey, String endPoint, @Nullable ObsConfiguration config) {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
         this.endPoint = endPoint;
         this.config = config;
+    }
+
+    public ObsClientFactory(ObsProperties obsProperties) {
+        this.accessKey = obsProperties.getAccessKey();
+        this.secretKey = obsProperties.getSecretKey();
+        this.endPoint = obsProperties.getEndPoint();
+        this.config = obsProperties.getConfig();
     }
 
     public ObsClient createClient() throws ClientCreateException {

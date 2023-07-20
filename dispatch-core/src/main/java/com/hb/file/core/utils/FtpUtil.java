@@ -4,34 +4,25 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.io.StreamProgress;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
 import com.hb.file.core.exception.ClientCreateException;
 import com.hb.file.core.exception.DownloadException;
 import com.hb.file.core.exception.UploadException;
 import com.hb.file.core.factory.FtpClientFactory;
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
-import org.springframework.util.StringUtils;
-import sun.net.ftp.FtpClient;
-
 
 import java.io.*;
 import java.util.List;
-import java.util.Objects;
-
-import static org.apache.commons.net.ftp.FTPClientConfig.SYST_UNIX;
 
 /**
  * ftp工具类
  *
  * @author hanbaolaoba
  */
-public class FtpUtil {
+public class FtpUtil implements StoreUtil {
     private static final Logger logger = LoggerFactory.getLogger(FtpUtil.class);
 
     /**
@@ -148,4 +139,24 @@ public class FtpUtil {
         this.ftpClient = ftpClient;
     }
 
+    @Override
+    public InputStream getDownloadInputStream(String remotePath) throws IOException {
+        File remoteFile = new File(remotePath);
+        // check remote file
+        checkFileExist(remoteFile.getParent(), remoteFile.getName());
+        return ftpClient.retrieveFileStream(remotePath);
+    }
+
+    @Override
+    public OutputStream getUploadOutputStream(String remotePath) throws IOException {
+        String fileDirectory = FileUtil.file(remotePath).getParentFile().getPath();
+        if (!mkdirFileDirectory(fileDirectory)) {
+            logger.warn("FTP Create File Fail, FileDirectory: {}", fileDirectory);
+        }
+        return ftpClient.storeFileStream(remotePath);
+    }
+
+    @Override
+    public void destroy() {
+    }
 }

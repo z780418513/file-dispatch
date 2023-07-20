@@ -26,7 +26,7 @@ import java.util.Objects;
  * @description
  * @date 2023/7/10
  */
-public class ObsUtil {
+public class ObsUtil implements StoreUtil {
     private static final Logger logger = LoggerFactory.getLogger(ObsUtil.class);
 
     /**
@@ -142,4 +142,24 @@ public class ObsUtil {
         this.progressListener = progressListener;
     }
 
+    @Override
+    public InputStream getDownloadInputStream(String objectKey) {
+        try {
+            GetObjectRequest request = downloadRequest(objectKey);
+            ObsObject object = this.obsClient.getObject(request);
+            return object.getObjectContent();
+        } catch (Exception e) {
+            throw new DownloadException("OBS Download fail, Msg: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public OutputStream getUploadOutputStream(String target) {
+        return null;
+    }
+
+    @Override
+    public void destroy() {
+        closeClient();
+    }
 }

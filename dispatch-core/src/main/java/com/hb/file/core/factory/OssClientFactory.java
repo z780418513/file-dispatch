@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.hb.file.core.exception.ClientCreateException;
+import com.hb.file.core.properties.OssProperties;
 import org.springframework.lang.Nullable;
 
 /**
@@ -37,6 +38,13 @@ public class OssClientFactory {
         this.accessKeyId = accessKeyId;
         this.accessKeySecret = accessKeySecret;
         this.securityToken = securityToken;
+    }
+
+    public OssClientFactory(OssProperties properties) {
+        this.endpoint = properties.getEndpoint();
+        this.accessKeyId = properties.getAccessKeyId();
+        this.accessKeySecret = properties.getAccessKeySecret();
+        this.securityToken = properties.getSecurityToken();
     }
 
     public OSSClient createClient() throws ClientCreateException {

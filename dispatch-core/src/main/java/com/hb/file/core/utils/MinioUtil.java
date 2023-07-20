@@ -2,14 +2,13 @@ package com.hb.file.core.utils;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.io.StreamProgress;
 import com.hb.file.core.exception.DownloadException;
 import com.hb.file.core.exception.UploadException;
 import com.hb.file.core.factory.MinioClientFactory;
-import com.obs.services.model.GetObjectRequest;
-import com.obs.services.model.ObsObject;
-import io.minio.*;
-import org.springframework.lang.Nullable;
+import io.minio.GetObjectArgs;
+import io.minio.GetObjectResponse;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
 
 import java.io.*;
 
@@ -19,7 +18,7 @@ import java.io.*;
  *
  * @author hanbaolaoba
  */
-public class MinioUtil {
+public class MinioUtil implements StoreUtil {
 
     private final MinioClient minioClient;
     private final String bucketName;
@@ -69,6 +68,25 @@ public class MinioUtil {
             IoUtil.close(fos);
         }
 
+
+    }
+
+    @Override
+    public InputStream getDownloadInputStream(String objectKey) throws Exception {
+        GetObjectArgs objectArgs = GetObjectArgs.builder()
+                .bucket(this.bucketName)
+                .object(objectKey)
+                .build();
+        return minioClient.getObject(objectArgs);
+    }
+
+    @Override
+    public OutputStream getUploadOutputStream(String target) {
+        return null;
+    }
+
+    @Override
+    public void destroy() {
 
     }
 }

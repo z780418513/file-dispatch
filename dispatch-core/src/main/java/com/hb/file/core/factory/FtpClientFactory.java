@@ -1,7 +1,8 @@
 package com.hb.file.core.factory;
 
-import com.hb.file.core.ftp.FtpClientProperties;
 import com.hb.file.core.exception.ClientCreateException;
+import com.hb.file.core.ftp.FtpConfiguration;
+import com.hb.file.core.properties.FtpProperties;
 import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.lang.Nullable;
 
@@ -35,13 +36,21 @@ public class FtpClientFactory {
      * FtpClientProperties
      */
     @Nullable
-    private FtpClientProperties properties;
+    private FtpConfiguration configuration;
 
     public FtpClientFactory(String host, int port, String username, String password) {
         this.host = host;
         this.port = port;
         this.username = username;
         this.password = password;
+    }
+
+    public FtpClientFactory(FtpProperties ftpProperties) {
+        this.host = ftpProperties.getHost();
+        this.port = ftpProperties.getPort();
+        this.username = ftpProperties.getUsername();
+        this.password = ftpProperties.getPassword();
+        this.configuration = ftpProperties.getConfiguration();
     }
 
 
@@ -54,7 +63,7 @@ public class FtpClientFactory {
                 throw new ClientCreateException("FTP登陆失败");
             }
 
-            configClient(ftpClient, properties);
+            configClient(ftpClient, configuration);
 
             return ftpClient;
         } catch (IOException e) {
@@ -68,13 +77,13 @@ public class FtpClientFactory {
      * @param ftpClient
      * @param properties
      */
-    public void configClient(FTPClient ftpClient, @Nullable FtpClientProperties properties) {
-        if (Objects.nonNull(properties)){
+    public void configClient(FTPClient ftpClient, @Nullable FtpConfiguration properties) {
+        if (Objects.nonNull(properties)) {
             // TODO
         }
     }
 
-    public void setProperties(FtpClientProperties properties) {
-        this.properties = properties;
+    public void setProperties(FtpConfiguration configuration) {
+        this.configuration = configuration;
     }
 }
