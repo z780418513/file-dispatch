@@ -13,12 +13,13 @@ CREATE TABLE `channel_config`
 -- 平台配置表
 CREATE TABLE `platform_config`
 (
-    `id`          bigint                                                NOT NULL AUTO_INCREMENT,
-    `platform_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '平台id',
-    `parameter`   varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '参数名',
-    `value`       varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '参数值',
-    `create_time` datetime                                              NOT NULL COMMENT '创建时间',
-    `update_time` datetime                                              NOT NULL COMMENT '更新时间',
+    `id`            bigint                                                NOT NULL AUTO_INCREMENT,
+    `platform_id`   varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '平台id',
+    `platform_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '平台名',
+    `parameter`     varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '参数名',
+    `value`         varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '参数值',
+    `create_time`   datetime                                              NOT NULL COMMENT '创建时间',
+    `update_time`   datetime                                              NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='平台配置表';
 
