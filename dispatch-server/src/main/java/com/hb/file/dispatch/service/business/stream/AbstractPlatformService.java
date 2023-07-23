@@ -1,6 +1,5 @@
 package com.hb.file.dispatch.service.business.stream;
 
-import com.hb.file.core.enums.PlatformEnum;
 import com.hb.file.dispatch.service.PlatformConfigService;
 import com.hb.file.dispatch.service.PlatformStreamService;
 import org.springframework.lang.Nullable;
@@ -16,8 +15,8 @@ public abstract class AbstractPlatformService implements PlatformStreamService {
     }
 
     @Nullable
-    public Map<String, String> getConfig(String channel, PlatformEnum platformEnum) {
-        return platformConfigService.queryPlatformConfig(channel, platformEnum.getPlatformType());
+    public Map<String, String> getConfigByPlatformId(String platformId) {
+        return platformConfigService.queryPlatformConfig(platformId);
     }
 
 }

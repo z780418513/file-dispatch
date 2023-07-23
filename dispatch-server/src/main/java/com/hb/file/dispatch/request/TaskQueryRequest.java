@@ -8,17 +8,17 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class PlatformRemoveRequest {
-
+public class TaskQueryRequest {
     @NotBlank
     @Length(min = 1, max = 64)
     private String channel;
-
     @NotNull
-    @Range(min = 1, max = 10)
-    private Integer platform;
-
-    @NotBlank
-    @Length(min = 1, max = 64)
-    private String platformId;
+    @Range(max = 100)
+    private Integer status;
+    @NotNull
+    @Range(max = 100)
+    private Integer current;
+    @NotNull
+    @Range(max = 100)
+    private Integer pageSize;
 }

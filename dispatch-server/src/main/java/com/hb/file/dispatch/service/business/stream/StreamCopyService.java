@@ -16,12 +16,18 @@ public class StreamCopyService {
     private final String channel;
     private final Integer inputPlatform;
     private final Integer outputPlatform;
+    private final String inputPlatformId;
+    private final String outputPlatformId;
     private final PlatformConfigService platformConfigService;
 
-    public StreamCopyService(String channel, Integer inputPlatform, Integer outputPlatform, PlatformConfigService platformConfigService) {
+    public StreamCopyService(String channel, Integer inputPlatform, Integer outputPlatform,
+                             String inputPlatformId, String outputPlatformId,
+                             PlatformConfigService platformConfigService) {
         this.channel = channel;
         this.inputPlatform = inputPlatform;
         this.outputPlatform = outputPlatform;
+        this.inputPlatformId = inputPlatformId;
+        this.outputPlatformId = outputPlatformId;
         this.platformConfigService = platformConfigService;
     }
 
@@ -56,13 +62,13 @@ public class StreamCopyService {
     private StoreUtil getInputStoreUtil() {
         AbstractPlatformService platformStreamService = switchPlatform(this.inputPlatform);
         platformStreamService.setPlatformConfigService(platformConfigService);
-        return platformStreamService.getStoreUtil(this.channel);
+        return platformStreamService.getStoreUtil(this.inputPlatformId);
     }
 
     private StoreUtil getOutputStoreUtil() {
         AbstractPlatformService platformStreamService = switchPlatform(this.outputPlatform);
         platformStreamService.setPlatformConfigService(platformConfigService);
-        return platformStreamService.getStoreUtil(this.channel);
+        return platformStreamService.getStoreUtil(this.outputPlatformId);
     }
 
     private AbstractPlatformService switchPlatform(Integer platform) {

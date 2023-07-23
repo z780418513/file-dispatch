@@ -9,9 +9,17 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "platform_config")
 public class PlatformConfigModel extends BaseModel {
 
-    private String channel;
-    private Integer platform;
+    /**
+     * 平台id
+     */
+    private String platformId;
+    /**
+     * 参数
+     */
     private String parameter;
+    /**
+     * 参数值
+     */
     private String value;
 
 

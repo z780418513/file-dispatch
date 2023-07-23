@@ -14,29 +14,33 @@ public class PlatformOssAddRequest {
     @Length(min = 1, max = 64)
     private String channel;
 
+    @NotBlank
+    @Length(min = 1, max = 64)
+    private String platformName;
+
     // ----------------- base -----------------
     /**
      * endpoint
      */
     @NotBlank
-    private final String endpoint;
+    private String endpoint;
     /**
      * accessKeyId
      */
     @NotBlank
-    private final String accessKeyId;
+    private String accessKeyId;
     /**
      * accessKeySecret
      */
     @NotBlank
-    private final String accessKeySecret;
+    private String accessKeySecret;
 
 
     /**
      * bucketName
      */
     @NotBlank
-    private final String bucketName;
+    private String bucketName;
 
 
     // TODO

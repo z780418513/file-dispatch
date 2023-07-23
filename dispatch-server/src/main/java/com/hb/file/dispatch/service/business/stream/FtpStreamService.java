@@ -1,7 +1,6 @@
 package com.hb.file.dispatch.service.business.stream;
 
 import com.hb.file.core.enums.BusInessExceptionEnum;
-import com.hb.file.core.enums.PlatformEnum;
 import com.hb.file.core.exception.BusinessException;
 import com.hb.file.core.factory.FtpClientFactory;
 import com.hb.file.core.properties.FtpProperties;
@@ -15,18 +14,18 @@ import java.util.Objects;
 public class FtpStreamService extends AbstractPlatformService {
 
     @Override
-    public StoreUtil getStoreUtil(String channel) {
-        return getFtpUtil(channel);
+    public StoreUtil getStoreUtil(String platformId) {
+        return getFtpUtil(platformId);
     }
 
-    private FtpUtil getFtpUtil(String channel) {
-        FtpProperties properties = getConfig(channel);
+    private FtpUtil getFtpUtil(String platformId) {
+        FtpProperties properties = getConfig(platformId);
         FtpClientFactory factory = new FtpClientFactory(properties);
         return new FtpUtil(factory);
     }
 
-    private FtpProperties getConfig(String channel) {
-        Map<String, String> config = getConfig(channel, PlatformEnum.FTP);
+    private FtpProperties getConfig(String platformId) {
+        Map<String, String> config = getConfigByPlatformId(platformId);
         if (Objects.isNull(config)) {
             throw new BusinessException(BusInessExceptionEnum.PLATFORM_CONFIG_NOT_EXIST);
         }

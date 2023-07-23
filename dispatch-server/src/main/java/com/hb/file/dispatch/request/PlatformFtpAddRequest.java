@@ -15,27 +15,31 @@ public class PlatformFtpAddRequest {
     @Length(min = 1, max = 64)
     private String channel;
 
+    @NotBlank
+    @Length(min = 1, max = 64)
+    private String platformName;
+
     // ----------------- base -----------------
     /**
      * host
      */
     @NotBlank
-    private final String host;
+    private String host;
     /**
      * port
      */
     @NotNull
-    private final int port;
+    private int port;
     /**
      * username
      */
     @NotBlank
-    private final String username;
+    private String username;
     /**
      * password
      */
     @NotBlank
-    private final String password;
+    private String password;
 
 
     // TODO

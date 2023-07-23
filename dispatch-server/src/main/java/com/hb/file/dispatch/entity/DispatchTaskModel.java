@@ -13,11 +13,11 @@ public class DispatchTaskModel extends BaseModel {
     /**
      * 输入渠道
      */
-    private Integer inputPlatform;
+    private String inputPlatformId;
     /**
      * 输出渠道
      */
-    private Integer outputPlatform;
+    private String outputPlatformId;
 
     // 任务流水号，唯一
     private String streamingNo;

@@ -15,6 +15,10 @@ public class PlatformObsAddRequest {
     @Length(min = 1, max = 64)
     private String channel;
 
+    @NotBlank
+    @Length(min = 1, max = 64)
+    private String platformName;
+
     // ----------------- base -----------------
     /**
      * AK

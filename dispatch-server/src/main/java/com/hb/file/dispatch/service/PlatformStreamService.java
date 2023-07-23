@@ -4,6 +4,6 @@ import com.hb.file.core.utils.StoreUtil;
 
 public interface PlatformStreamService {
 
-    StoreUtil getStoreUtil(String channel);
+    StoreUtil getStoreUtil(String platformId);
 
 }

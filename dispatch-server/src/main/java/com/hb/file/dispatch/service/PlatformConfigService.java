@@ -8,10 +8,11 @@ import java.util.Map;
 
 public interface PlatformConfigService {
 
-    boolean addConfigs(String channel, Integer platform, Map<String, Object> configs);
+    boolean addConfigs(String platformId, Map<String, Object> configs);
 
     @Nullable
-    HashMap<String, String> queryPlatformConfig(String channel, Integer platform);
+    HashMap<String, String> queryPlatformConfig(String platformId);
 
-    boolean removePlatformConfig(String channel, Integer platform);
+    boolean removePlatformConfig(String platformId);
+
 }

@@ -28,4 +28,8 @@ public class ChannelSupportService {
     public void enableChannelSupport(String channel) {
         stringRedisTemplate.opsForSet().add(RedisConstant.CHANNEL_SUPPORT_SET, channel);
     }
+
+    public void disableChannelSupport(String channel) {
+        stringRedisTemplate.opsForSet().remove(RedisConstant.CHANNEL_SUPPORT_SET, channel);
+    }
 }

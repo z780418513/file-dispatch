@@ -1,6 +1,8 @@
 package com.hb.file.dispatch.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hb.file.core.enums.TaskStatusEnum;
 import com.hb.file.dispatch.entity.DispatchTaskModel;
 import com.hb.file.dispatch.mapper.DispatchTaskMapper;
@@ -41,5 +43,13 @@ public class DispatchTaskServiceImpl implements DispatchTaskService {
         dispatchTaskModel.setStatus(status);
         dispatchTaskModel.setMessage(message);
         dispatchTaskMapper.updateById(dispatchTaskModel);
+    }
+
+    @Override
+    public IPage<DispatchTaskModel> queryDispatchTask(String channel, @Nullable Integer status, Integer current, Integer pageSize) {
+        Page<DispatchTaskModel> page = new Page<>(current, pageSize);
+        return dispatchTaskMapper.selectPage(page, Wrappers.<DispatchTaskModel>lambdaQuery()
+                .eq(DispatchTaskModel::getChannel, channel)
+                .eq(Objects.nonNull(status), DispatchTaskModel::getStatus, status));
     }
 }
